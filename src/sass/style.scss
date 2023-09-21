@@ -1,4 +1,7 @@
-* {
+@use '../utilities/index.scss' as *;
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
@@ -20,13 +23,26 @@ body {
 	margin: 0 auto;
 }
 .header {
+	box-shadow: 1px 2px 16px -5px #000;
+	position: fixed;
+	padding: 0.5rem 0;
 	width: 100%;
+	top: 0;
 	&__container {
 		align-items: center;
 		display: flex;
 		justify-content: space-between;
 	}
-    &__logo {
-        width: 10rem;
-    }
+	&__logo {
+		width: 10rem;
+	}
+	&__cart-button {
+		background-color: transparent;
+		border: 1px solid transparent;
+		cursor: pointer;
+		transition: transform 0.3s;
+	}
+	&__cart-button:hover {
+		transform: scale(1.05);
+	}
 }
