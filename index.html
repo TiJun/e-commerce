@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Test e-commerce platform on vanilla JS">
     <title>E-commerce</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../dist/css/hamburger.min.css">
     <link rel="stylesheet" href="../dist/css/style.min.css">
     <script defer src="../dist/js/script.min.js"></script>
 </head>
@@ -19,6 +23,21 @@
             </div>
         </div>
     </header>
+    <main class="main">
+        <div class="wrapper">
+            <h1 class="heading">our products</h1>
+            <ul class="product-list"></ul>
+            <div class="cart">
+                <h2 class="cart__heading">cart</h2>
+                <button class="cart__button"><img src="../dist/img/arrow-right.svg" alt="back arrow"></button>
+                <ul class="cart__list"><img class="cart__icon" src="../dist/img/emptyCart.png" alt="">
+                    <p>you cart is empty</p>
+                </ul>
+                <h3 class="cart__total--text">Your total : <span class="cart__total--number">0$</span></h3>
+            </div>
+        </div>
+        </div>
+    </main>
 </body>
 
 </html>

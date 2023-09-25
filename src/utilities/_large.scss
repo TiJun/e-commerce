@@ -1,0 +1,16 @@
+@mixin large {
+	@media (min-width: 992px) {
+		.header__cart-button {
+			bottom: auto;
+			right: auto;
+			position: relative;
+		}
+		.hamburger {
+			display: none;
+		}
+		.cart {
+			height: 100vh;
+			left: 75%;
+		}
+	}
+}
