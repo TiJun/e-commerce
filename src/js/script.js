@@ -1,27 +1,34 @@
-const API_URL = 'https://dummyjson.com/products/category/smartphones'
+const API_URL = 'https://dummyjson.com/products'
 let products
 fetch(API_URL)
 	.then(res => res.json())
-	.then(productsRaw => {
-		console.log(productsRaw.products)
-		products = productsRaw.products.map(products => {
+	.then(products => products.products)
+	.then(products => {
+		products = products.map(product => {
 			return {
-				name: products.title,
-				category: products.category,
-				price: products.price,
-				
+				name: product.title,
+				price: product.price,
+				image: product.thumbnail,
+				category: product.category,
 			}
 		})
 		console.log(products)
+		renderProducts(products)
 	})
-const cartButton = document.querySelector('.header__cart-button')
-const cartBackButton = document.querySelector('.cart__button')
-const cart = document.querySelector('.cart')
-const activeCart = () => {
-	cart.classList.add('cart-active')
+const createProductListItem = (products) => {
+	const productListItem = document.createElement('li')
+	return productListItem
 }
-const hideCart = () => {
-	cart.classList.remove('cart-active')
+const createProductsList = (products) => {
+	const productsList = document.createElement('ul')
+	products.forEach(product => {
+		createProductListItem(product)
+	});
+	productsList.append(createProductListItem(products))
+	return productsList
 }
-cartButton.addEventListener('click', activeCart)
-cartBackButton.addEventListener('click', hideCart)
+const renderProducts = (products) => {
+	const main = document.querySelector('.main')
+	main.append(createProductsList(products))
+	return main
+}
