@@ -12,12 +12,12 @@ html {
 body {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 1rem;
-	overflow: hidden;
 }
 .wrapper {
 	max-width: 1200px;
 	width: 100%;
 	margin: 0 auto;
+	// overflow: hidden;
 }
 .header {
 	box-shadow: 1px 2px 16px -5px #000;
@@ -91,5 +91,19 @@ body {
 	padding: 2rem 0;
 	text-transform: uppercase;
 	text-align: center;
+}
+.products-list {
+	display: grid;
+	gap: 50px;
+	grid-template-columns: repeat(3, 1fr);
+	.product-list-item {
+		box-shadow: 5px 5px 15px -2px #000;
+		width: 30rem;
+		list-style: none;
+		.product-image {
+			width: 30rem;
+			height: 20rem;
+		}
+	}
 }
 @include large;

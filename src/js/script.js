@@ -1,4 +1,4 @@
-const API_URL = 'https://dummyjson.com/products'
+const API_URL = 'https://dummyjson.com/products/?limit=0'
 let products
 fetch(API_URL)
 	.then(res => res.json())
@@ -15,20 +15,28 @@ fetch(API_URL)
 		console.log(products)
 		renderProducts(products)
 	})
-const createProductListItem = (products) => {
+const createImageElement = product => {
+	const imageElement = document.createElement('img')
+	imageElement.src = product.image
+	imageElement.setAttribute('class', 'product-image')
+	return imageElement
+}
+const createProductListItem = products => {
 	const productListItem = document.createElement('li')
+	productListItem.setAttribute('class', 'product-list-item');
+	productListItem.append(createImageElement(products))
 	return productListItem
 }
-const createProductsList = (products) => {
+const createProductsList = products => {
 	const productsList = document.createElement('ul')
+	productsList.setAttribute('class', 'products-list')
 	products.forEach(product => {
-		createProductListItem(product)
-	});
-	productsList.append(createProductListItem(products))
+		productsList.append(createProductListItem(product))
+	})
 	return productsList
 }
-const renderProducts = (products) => {
-	const main = document.querySelector('.main')
+const renderProducts = products => {
+	const main = document.querySelector('#main')
 	main.append(createProductsList(products))
 	return main
 }
