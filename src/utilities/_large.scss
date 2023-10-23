@@ -12,5 +12,9 @@
 			height: 100vh;
 			left: 75%;
 		}
+		.products-list {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+		}
 	}
 }
