@@ -11,8 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../dist/css/hamburger.min.css">
     <link rel="stylesheet" href="../dist/css/style.min.css">
-    <script defer src="../dist/js/cart.min.js"></script>
-    <script defer src="../dist/js/script.min.js"></script>
 </head>
 
 <body>
@@ -20,7 +18,10 @@
         <div class="wrapper">
             <div class="header__container">
                 <img src="../src/img/logo-isolated.png" alt="" class="header__logo">
-                <button class="header__cart-button"><img src="../src/img/shopping-bag.svg" alt=""></button>
+                <div class="header__cart-button-container">
+                    <span class="header__cart-counter">0</span>
+                    <button class="header__cart-button"><img src="../src/img/shopping-bag.svg" alt=""></button>
+                </div>
             </div>
         </div>
     </header>
@@ -38,6 +39,8 @@
         </div>
         </div>
     </main>
+    <script src="../dist/js/script.min.js"></script>
+    <script src="../dist/js/cart.min.js"></script>
 </body>
 
 </html>

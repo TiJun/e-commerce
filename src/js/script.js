@@ -84,6 +84,6 @@ const renderProducts = products => {
 	return main
 }
 const fillFavoriteIcon = (e) => {
-	const icon = e.target.closest('svg')
+	const icon = e.target.closest('button').firstChild
 	icon.classList.toggle('favorite-icon-clicked')
 }
