@@ -44,8 +44,8 @@ body {
 		padding: 1rem;
 		transition: background-color 0.3s;
 	}
-	&__cart-button:hover {
-		background-color: #ddd;
+	&__cart-button:hover .header__cart-button {
+		stroke: red;
 	}
 }
 .cart {
@@ -107,9 +107,10 @@ body {
 	z-index: -1;
 	.product-list-item {
 		box-shadow: 5px 5px 15px -2px #000;
+		border-radius: 5px;
 		margin: 0 auto;
-		height: fit-content;
-		width: 25rem;
+		height: 46rem;
+		width: 30rem;
 		list-style: none;
 		padding: 1rem;
 		position: relative;
@@ -130,18 +131,25 @@ body {
 			padding: 1rem 0;
 		}
 		.product-container {
+			align-items: center;
+			flex-direction: row-reverse;
+			bottom: 0;
 			display: flex;
 			justify-content: space-around;
-			align-items: center;
+			margin: 0 0 2rem 0;
+			position: absolute;
 			.purchase-button {
 				background-color: #1d50f9;
 				border: 1px solid transparent;
 				color: #fff;
 				cursor: pointer;
 				font-size: 1.5rem;
+				margin: 0 6rem 0 2rem;
 				padding: 1rem 2rem;
 			}
-			.favorite-icon {
+			.favorite-button {
+				background-color: transparent;
+				border: 0px solid transparent;
 				cursor: pointer;
 			}
 		}
