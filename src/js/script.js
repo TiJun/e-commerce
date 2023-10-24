@@ -1,5 +1,6 @@
 const API_URL = 'https://fakestoreapi.com/products'
-let favoriteButton
+let favoriteButtons
+let favoriteIcons
 let products
 fetch(API_URL)
 	.then(res => res.json())
@@ -75,6 +76,14 @@ const createProductsList = products => {
 const renderProducts = products => {
 	const main = document.querySelector('#main')
 	main.append(createProductsList(products))
-	favoriteButton = document.querySelectorAll('.favorite-button')
+	favoriteButtons = document.querySelectorAll('.favorite-button')
+	favoriteIcons = document.querySelectorAll('.favorite-icon')
+	favoriteButtons.forEach(button => {
+		button.addEventListener('click', fillFavoriteIcon)
+	})
 	return main
+}
+const fillFavoriteIcon = (e) => {
+	const icon = e.target.closest('svg')
+	icon.classList.toggle('favorite-icon-clicked')
 }

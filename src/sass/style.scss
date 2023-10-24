@@ -146,15 +146,27 @@ body {
 				font-size: 1.5rem;
 				margin: 0 6rem 0 2rem;
 				padding: 1rem 2rem;
+				transition: transform .1s;
+			}
+			.purchase-button:hover {
+				transform: scale(1.15);
 			}
 			.favorite-button {
 				background-color: transparent;
 				border: 0px solid transparent;
 				cursor: pointer;
+				padding: 1rem;
+			}
+			.favorite-icon {
+				transition: stroke .3s;
 			}
 		}
-		.favorite-icon:hover {
-			stroke: red;
+		.favorite-button:hover .favorite-icon {
+			stroke: #ff0000;
+		}
+		.favorite-icon-clicked {
+			fill: #ff0000;
+			stroke: #ff0000;
 		}
 	}
 }
