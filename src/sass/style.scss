@@ -45,7 +45,7 @@ body {
 		cursor: pointer;
 		margin: 1rem;
 		padding: 1rem;
-		transition: background-color 0.3s;
+		transition: transform 0.3s;
 	}
 	&__cart-counter {
 		bottom: 0;
@@ -55,14 +55,18 @@ body {
 		font-size: 1rem;
 		font-weight: bold;
 		height: 1.5rem;
-		margin: 1.4rem;
+		margin: 1.2rem;
 		position: absolute;
 		right: 0;
 		width: 1.5rem;
 		text-align: center;
+		transition: transform .3s;
 	}
-	&__cart-button:hover .header__cart-button {
-		stroke: red;
+	&__cart-button:hover {
+		transform: scale(1.2);
+	}
+	.count-up {
+		animation: countUp .5s forwards;
 	}
 }
 .cart {
@@ -113,6 +117,7 @@ body {
 	padding: 2rem 0;
 	text-transform: uppercase;
 	text-align: center;
+	padding: 5rem;
 }
 .main {
 	margin: 8rem 0 5rem 0;
@@ -143,7 +148,8 @@ body {
 			padding: 1.5rem 0 0 0;
 		}
 		.product-price {
-			font-size: 2rem;
+			font-size: 2.5rem;
+			font-weight: bold;
 			text-align: center;
 			padding: 1rem 0;
 		}
@@ -189,3 +195,14 @@ body {
 	}
 }
 @include large;
+@keyframes countUp {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1);
+	}
+}

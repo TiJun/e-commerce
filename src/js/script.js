@@ -1,7 +1,11 @@
 const API_URL = 'https://fakestoreapi.com/products'
-let favoriteButtons
-let favoriteIcons
 let products
+const cartButton = document.querySelector('.header__cart-button')
+const cartBackButton = document.querySelector('.cart__button')
+const productCounter = document.querySelector('.header__cart-counter')
+const cart = document.querySelector('.cart')
+let productCounterAmount = 0
+productCounter.textContent = productCounterAmount
 fetch(API_URL)
 	.then(res => res.json())
 	.then(products => products)
@@ -62,9 +66,9 @@ const createProductListItem = products => {
 		createTitleElement(products),
 		createPriceElement(products),
 		productContainer(products)
-		)
-		return productListItem
-	}
+	)
+	return productListItem
+}
 const createProductsList = products => {
 	const productsList = document.createElement('ul')
 	productsList.setAttribute('class', 'products-list')
@@ -76,14 +80,37 @@ const createProductsList = products => {
 const renderProducts = products => {
 	const main = document.querySelector('#main')
 	main.append(createProductsList(products))
-	favoriteButtons = document.querySelectorAll('.favorite-button')
-	favoriteIcons = document.querySelectorAll('.favorite-icon')
+	const favoriteButtons = document.querySelectorAll('.favorite-button')
+	const favoriteIcons = document.querySelectorAll('.favorite-icon')
 	favoriteButtons.forEach(button => {
 		button.addEventListener('click', fillFavoriteIcon)
 	})
+	const purchaseButtons = document.querySelectorAll('.purchase-button')
+	purchaseButtons.forEach(button => {
+		button.addEventListener('click', countUp)
+	})
 	return main
 }
-const fillFavoriteIcon = (e) => {
+const fillFavoriteIcon = e => {
 	const icon = e.target.closest('button').firstChild
 	icon.classList.toggle('favorite-icon-clicked')
 }
+const showCart = () => {
+	cart.classList.add('cart-active')
+}
+const hideCart = () => {
+	cart.classList.remove('cart-active')
+}
+const countUp = e => {
+	if (e.target.textContent === 'ADD TO CART') {
+		productCounter.classList.add('count-up')
+		setTimeout(removeAnim, 250)
+		productCounterAmount++
+		productCounter.textContent = productCounterAmount
+	}
+}
+const removeAnim = () => {
+	productCounter.classList.remove('count-up')
+}
+cartButton.addEventListener('click', showCart)
+cartBackButton.addEventListener('click', hideCart)
