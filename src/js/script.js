@@ -1,116 +1,93 @@
-const API_URL = 'https://fakestoreapi.com/products'
-let products
+const cartCounter = document.querySelector('.header__cart-counter')
 const cartButton = document.querySelector('.header__cart-button')
-const cartBackButton = document.querySelector('.cart__button')
-const productCounter = document.querySelector('.header__cart-counter')
 const cart = document.querySelector('.cart')
-let productCounterAmount = 0
-productCounter.textContent = productCounterAmount
-fetch(API_URL)
-	.then(res => res.json())
-	.then(products => products)
-	.then(products => {
-		products = products.map(product => {
-			return {
-				name: product.title,
-				price: product.price,
-				image: product.image,
-				category: product.category,
-			}
-		})
-		console.log(products)
-		renderProducts(products)
-	})
-const createFavoriteElement = () => {
-	const favoriteElement = document.createElement('svg')
-	favoriteElement.setAttribute('class', 'favorite-icon')
-	return favoriteElement
+const cartBackButton = document.querySelector('.cart__button')
+let counter = 0
+cartCounter.textContent = counter
+const createFavoriteButton = () => {
+	const favButton = document.createElement('button')
+	favButton.classList.add('favorite-button')
+	favButton.innerHTML =
+		'<svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'
+	return favButton
 }
-const productContainer = product => {
-	const productContainer = document.createElement('div')
-	productContainer.setAttribute('class', 'product-container')
-	productContainer.innerHTML =
-		'<button class="favorite-button"><svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>'
-	productContainer.append(createPurchaseButton(product))
-	return productContainer
+const createButtonsContainer = () => {
+	const buttonsContainer = document.createElement('div')
+	buttonsContainer.classList.add('buttons-container')
+	buttonsContainer.append(createPurchaseButton(), createFavoriteButton())
+	return buttonsContainer
 }
-const createPriceElement = product => {
-	const priceElement = document.createElement('p')
-	priceElement.setAttribute('class', 'product-price')
-	priceElement.textContent = product.price + '$'
-	return priceElement
-}
-const createPurchaseButton = product => {
+const createPurchaseButton = () => {
 	const purchaseButton = document.createElement('button')
-	purchaseButton.setAttribute('class', 'purchase-button')
+	purchaseButton.classList.add('purchase-button')
 	purchaseButton.textContent = 'ADD TO CART'
 	return purchaseButton
 }
-const createTitleElement = product => {
+const createProductPrice = products => {
+	const productPrice = document.createElement('p')
+	productPrice.classList.add('product-price')
+	productPrice.textContent = products.price + '$'
+	return productPrice
+}
+const createProductName = products => {
 	const productName = document.createElement('p')
-	productName.setAttribute('class', 'product-name')
-	productName.textContent = product.name.toUpperCase()
+	productName.classList.add('product-name')
+	productName.textContent = products.name
 	return productName
 }
-const createImageElement = product => {
-	const imageElement = document.createElement('img')
-	imageElement.src = product.image
-	imageElement.setAttribute('class', 'product-image')
-	return imageElement
+const createProductImage = products => {
+	const productImage = document.createElement('img')
+	productImage.classList.add('product-image')
+	productImage.setAttribute('src', products.image)
+	return productImage
 }
 const createProductListItem = products => {
 	const productListItem = document.createElement('li')
-	productListItem.setAttribute('class', 'product-list-item')
+	productListItem.classList.add('product-list-item')
 	productListItem.append(
-		createImageElement(products),
-		createTitleElement(products),
-		createPriceElement(products),
-		productContainer(products)
+		createProductImage(products),
+		createProductName(products),
+		createProductPrice(products),
+		createButtonsContainer()
 	)
 	return productListItem
 }
 const createProductsList = products => {
-	const productsList = document.createElement('ul')
-	productsList.setAttribute('class', 'products-list')
+	const productList = document.createElement('ul')
+	productList.classList.add('products-list')
 	products.forEach(product => {
-		productsList.append(createProductListItem(product))
+		productList.append(createProductListItem(product))
 	})
-	return productsList
+	return productList
 }
 const renderProducts = products => {
 	const main = document.querySelector('#main')
 	main.append(createProductsList(products))
-	const favoriteButtons = document.querySelectorAll('.favorite-button')
-	const favoriteIcons = document.querySelectorAll('.favorite-icon')
-	favoriteButtons.forEach(button => {
-		button.addEventListener('click', fillFavoriteIcon)
-	})
-	const purchaseButtons = document.querySelectorAll('.purchase-button')
-	purchaseButtons.forEach(button => {
-		button.addEventListener('click', countUp)
-	})
 	return main
 }
-const fillFavoriteIcon = e => {
-	const icon = e.target.closest('button').firstChild
-	icon.classList.toggle('favorite-icon-clicked')
+renderProducts(products)
+const countProductInBasket = () => {
+	const purchaseButtons = document.querySelectorAll('.purchase-button')
+	purchaseButtons.forEach(button => {
+		button.addEventListener('click', e => {
+			const clickedBtn = e.target
+			if (clickedBtn.textContent === 'ADD TO CART') {
+				;(clickedBtn.textContent = 'REMOVE'), clickedBtn.classList.add('remove-from-cart')
+				counter++
+			} else {
+				;(clickedBtn.textContent = 'ADD TO CART'), clickedBtn.classList.remove('remove-from-cart')
+				counter--
+			}
+			cartCounter.textContent = counter
+		})
+	})
 }
-const showCart = () => {
+const openBasket = () => {
 	cart.classList.add('cart-active')
 }
-const hideCart = () => {
+const closeBasket = () => {
 	cart.classList.remove('cart-active')
 }
-const countUp = e => {
-	if (e.target.textContent === 'ADD TO CART') {
-		productCounter.classList.add('count-up')
-		setTimeout(removeAnim, 250)
-		productCounterAmount++
-		productCounter.textContent = productCounterAmount
-	}
-}
-const removeAnim = () => {
-	productCounter.classList.remove('count-up')
-}
-cartButton.addEventListener('click', showCart)
-cartBackButton.addEventListener('click', hideCart)
+cartBackButton.addEventListener('click', closeBasket)
+cartButton.addEventListener('click', openBasket)
+countProductInBasket()
