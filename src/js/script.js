@@ -1,9 +1,13 @@
-const cartCounter = document.querySelector('.header__cart-counter')
-const cartButton = document.querySelector('.header__cart-button')
-const cart = document.querySelector('.cart')
-const cartBackButton = document.querySelector('.cart__button')
+const basketCounter = document.querySelector('.header__basket-counter')
+const basketButton = document.querySelector('.header__basket-button')
+const basket = document.querySelector('.basket')
+const basketBackButton = document.querySelector('.basket__button')
+let basketList = document.querySelector('.basket__list')
+const basketText = document.querySelector('.basket__text')
+const basketIcon = document.querySelector('.basket__icon')
+let itemsInBasket = []
 let counter = 0
-cartCounter.textContent = counter
+basketCounter.textContent = counter
 const createFavoriteButton = () => {
 	const favButton = document.createElement('button')
 	favButton.classList.add('favorite-button')
@@ -44,6 +48,7 @@ const createProductImage = products => {
 const createProductListItem = products => {
 	const productListItem = document.createElement('li')
 	productListItem.classList.add('product-list-item')
+	productListItem.setAttribute('data-id', products.id)
 	productListItem.append(
 		createProductImage(products),
 		createProductName(products),
@@ -66,28 +71,49 @@ const renderProducts = products => {
 	return main
 }
 renderProducts(products)
+const purchaseProduct = e => {
+	if (itemsInBasket !== '') {
+		basketIcon.classList.add('in-active')
+		basketText.classList.add('in-active')
+	} else {
+		basketIcon.classList.remove('in-active')
+		basketText.classList.remove('in-active')
+	}
+	const purchasedProduct = e.target.closest('li').dataset.id
+	console.log(purchasedProduct)
+	const purchasedListItem = document.createElement('li')
+	purchasedListItem.classList.add('basket__purchased-item')
+	const purchasedItemImage = document.createElement('img')
+	purchasedItemImage.classList.add('product-image')
+	purchasedItemImage.setAttribute('src', products[purchasedProduct].image)
+	purchasedListItem.append(purchasedItemImage)
+	basketList.append(purchasedListItem)
+}
 const countProductInBasket = () => {
 	const purchaseButtons = document.querySelectorAll('.purchase-button')
 	purchaseButtons.forEach(button => {
 		button.addEventListener('click', e => {
 			const clickedBtn = e.target
 			if (clickedBtn.textContent === 'ADD TO CART') {
-				;(clickedBtn.textContent = 'REMOVE'), clickedBtn.classList.add('remove-from-cart')
+				clickedBtn.textContent = 'REMOVE'
+				clickedBtn.classList.add('remove-from-basket')
 				counter++
 			} else {
-				;(clickedBtn.textContent = 'ADD TO CART'), clickedBtn.classList.remove('remove-from-cart')
+				clickedBtn.textContent = 'ADD TO CART'
+				clickedBtn.classList.remove('remove-from-basket')
 				counter--
 			}
-			cartCounter.textContent = counter
+			purchaseProduct(e)
+			basketCounter.textContent = counter
 		})
 	})
 }
 const openBasket = () => {
-	cart.classList.add('cart-active')
+	basket.classList.add('basket-active')
 }
 const closeBasket = () => {
-	cart.classList.remove('cart-active')
+	basket.classList.remove('basket-active')
 }
-cartBackButton.addEventListener('click', closeBasket)
-cartButton.addEventListener('click', openBasket)
+basketBackButton.addEventListener('click', closeBasket)
+basketButton.addEventListener('click', openBasket)
 countProductInBasket()

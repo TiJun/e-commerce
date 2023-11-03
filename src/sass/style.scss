@@ -26,7 +26,7 @@ body {
 	top: 0;
 	width: 100%;
 	z-index: 10;
-	&__cart-button-container {
+	&__basket-button-container {
 		position: relative;
 	}
 	&__container {
@@ -38,7 +38,7 @@ body {
 		cursor: pointer;
 		width: 7rem;
 	}
-	&__cart-button {
+	&__basket-button {
 		background-color: transparent;
 		border: 1px solid transparent;
 		border-radius: 50%;
@@ -47,7 +47,7 @@ body {
 		padding: 1rem;
 		transition: transform 0.3s;
 	}
-	&__cart-counter {
+	&__basket-counter {
 		bottom: 0;
 		border-radius: 50%;
 		background-color: red;
@@ -60,26 +60,27 @@ body {
 		right: 0;
 		width: 1.5rem;
 		text-align: center;
-		transition: transform .3s;
+		transition: transform 0.3s;
 	}
-	&__cart-button:hover {
+	&__basket-button:hover {
 		transform: scale(1.2);
 	}
 	.count-up {
-		animation: countUp .5s forwards;
+		animation: countUp 0.5s forwards;
 	}
 }
-.cart {
+.basket {
 	background-color: #fff;
 	box-shadow: 0px 1px 12px -2px #000;
 	bottom: 0;
 	font-size: 2rem;
+	overflow: scroll;
 	left: 0;
-	position: fixed;
 	top: 0;
+	position: fixed;
 	text-align: center;
 	text-transform: uppercase;
-	transform: translateX(101%);
+	transform: translateX(305%);
 	transition: transform 0.4s ease 0s;
 	right: 0;
 	z-index: 20;
@@ -94,8 +95,17 @@ body {
 	}
 	&__list {
 		border-bottom: 2px solid #000;
+		display: grid;
 		grid-template-columns: repeat(1, 1fr);
 		padding: 1rem 0;
+	}
+	&__purchased-item {
+		display: grid;
+		grid-template-columns: repeat(3,1fr);
+		grid-template-rows: repeat(2,1fr);
+		.product-image {
+			width: 15rem;
+		}
 	}
 	&__icon {
 		width: 6rem;
@@ -109,8 +119,11 @@ body {
 		padding: 0.5rem 1rem;
 		text-align: right;
 	}
+	.in-active {
+		display: none;
+	}
 }
-.cart-active {
+.basket-active {
 	transform: translateX(0);
 }
 .heading {
@@ -127,75 +140,76 @@ body {
 	display: grid;
 	gap: 20px;
 	grid-template-columns: repeat(1, 1fr);
-	z-index: -1;}
-	.product-list-item {
-		box-shadow: 5px 5px 15px -2px #000;
-		border-radius: 5px;
+	z-index: -1;
+}
+.product-list-item {
+	box-shadow: 5px 5px 15px -2px #000;
+	border-radius: 5px;
+	margin: 0 auto;
+	height: 46rem;
+	width: 30rem;
+	list-style: none;
+	padding: 1rem;
+	position: relative;
+	.product-image {
+		height: 250px;
+		width: 100%;
+	}
+	.product-name {
+		font-size: 2rem;
+		font-weight: bold;
+		text-align: center;
 		margin: 0 auto;
-		height: 46rem;
-		width: 30rem;
-		list-style: none;
-		padding: 1rem;
-		position: relative;
-		.product-image {
-			height: 250px;
-			width: 100%;
+		padding: 1.5rem 0 0 0;
+		text-transform: uppercase;
+	}
+	.product-price {
+		font-size: 3rem;
+		font-weight: bold;
+		letter-spacing: 2px;
+		text-align: center;
+		padding: 1rem 0;
+	}
+	.buttons-container {
+		align-items: center;
+		bottom: 0;
+		display: flex;
+		justify-content: space-around;
+		margin: 0 0 2rem 0;
+		position: absolute;
+		.purchase-button {
+			background-color: $add-to-basket;
+			border: 1px solid transparent;
+			color: #fff;
+			cursor: pointer;
+			font-size: 1.5rem;
+			margin: 0 6rem 0 2rem;
+			padding: 1rem 2rem;
+			transition: transform 0.2s, background-color 0.2s ease-in-out;
 		}
-		.product-name {
-			font-size: 2rem;
-			font-weight: bold;
-			text-align: center;
-			margin: 0 auto;
-			padding: 1.5rem 0 0 0;
-			text-transform: uppercase;
+		.purchase-button:hover {
+			transform: scale(1.15);
 		}
-		.product-price {
-			font-size: 3rem;
-			font-weight: bold;
-			letter-spacing: 2px;
-			text-align: center;
-			padding: 1rem 0;
+		.remove-from-basket {
+			background-color: $remove-from-basket;
 		}
-		.buttons-container {
-			align-items: center;
-			bottom: 0;
-			display: flex;
-			justify-content: space-around;
-			margin: 0 0 2rem 0;
-			position: absolute;
-			.purchase-button {
-				background-color: $add-to-cart;
-				border: 1px solid transparent;
-				color: #fff;
-				cursor: pointer;
-				font-size: 1.5rem;
-				margin: 0 6rem 0 2rem;
-				padding: 1rem 2rem;
-				transition: transform 0.2s, background-color 0.2s ease-in-out;
-			}
-			.purchase-button:hover {
-				transform: scale(1.15);
-			}
-			.remove-from-cart {
-				background-color: $remove-from-cart;
-			}
-			.favorite-button {
-				background-color: transparent;
-				border: 0px solid transparent;
-				cursor: pointer;
-				padding: 1rem;
-			}
-			.favorite-icon {
-				transition: stroke 0.3s, transform 0.3s;
-			}
+		.favorite-button {
+			background-color: transparent;
+			border: 0px solid transparent;
+			cursor: pointer;
+			padding: 1rem;
 		}
-		.favorite-button:hover .favorite-icon {
-			stroke: $fav-color;
-			transform: scale(1.2);
-		}
-		.favorite-icon-clicked {
-			fill: $fav-color;
-			stroke: $fav-color;
+		.favorite-icon {
+			transition: stroke 0.3s, transform 0.3s;
 		}
 	}
+	.favorite-button:hover .favorite-icon {
+		stroke: $fav-color;
+		transform: scale(1.2);
+	}
+	.favorite-icon-clicked {
+		fill: $fav-color;
+		stroke: $fav-color;
+	}
+}
 @include large;

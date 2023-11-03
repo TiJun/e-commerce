@@ -1,6 +1,6 @@
 @mixin large {
 	@media (min-width: 992px) {
-		.header__cart-button {
+		.header__basket-button {
 			bottom: auto;
 			right: auto;
 			position: relative;
@@ -8,7 +8,7 @@
 		.hamburger {
 			display: none;
 		}
-		.cart {
+		.basket {
 			height: 100vh;
 			left: 75%;
 		}
