@@ -100,14 +100,29 @@ body {
 		padding: 1rem 0;
 	}
 	&__purchased-item {
+		box-shadow: 0 4px 17px 0px #000;
 		display: grid;
-		grid-template-columns: repeat(3,1fr);
-		grid-template-rows: repeat(2,1fr);
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		margin: .5rem auto;
 		.product-image {
+			grid-row: 1/3;
 			width: 15rem;
 		}
 	}
+	&__purchased-price {
+		grid-row: 1;
+		grid-column: 3;
+		margin: auto;
+	}
+	&__purchased-name {
+		grid-row: 1;
+		grid-column: 2;
+		margin: auto;
+		padding: 0.5rem;
+	}
 	&__icon {
+		margin: 0 auto;
 		width: 6rem;
 	}
 	&__heading {
@@ -123,8 +138,11 @@ body {
 		display: none;
 	}
 }
-.basket-active {
+.basket-active-mobile {
 	transform: translateX(0);
+}
+.basket-active-desktop {
+	transform: translateX(203%);
 }
 .heading {
 	font-size: 2.5rem;
@@ -143,6 +161,7 @@ body {
 	z-index: -1;
 }
 .product-list-item {
+	background-color: #fff;
 	box-shadow: 5px 5px 15px -2px #000;
 	border-radius: 5px;
 	margin: 0 auto;

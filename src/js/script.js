@@ -5,7 +5,10 @@ const basketBackButton = document.querySelector('.basket__button')
 let basketList = document.querySelector('.basket__list')
 const basketText = document.querySelector('.basket__text')
 const basketIcon = document.querySelector('.basket__icon')
-let itemsInBasket = []
+let basketValue= document.querySelector('.basket__total--number')
+let basketAmount = 0
+basketValue.textContent = basketAmount + '$'
+let productsInBasket = []
 let counter = 0
 basketCounter.textContent = counter
 const createFavoriteButton = () => {
@@ -71,22 +74,50 @@ const renderProducts = products => {
 	return main
 }
 renderProducts(products)
-const purchaseProduct = e => {
-	if (itemsInBasket !== '') {
-		basketIcon.classList.add('in-active')
-		basketText.classList.add('in-active')
-	} else {
+const purchasedProductIdName = (purchasedProductId) => {
+	const purchasedProductIdName = document.createElement('p')
+	purchasedProductIdName.textContent = products[purchasedProductId].name
+	purchasedProductIdName.classList.add('basket__purchased-name')
+	return purchasedProductIdName
+}
+const purchasedProductIdPrice = (purchasedProductId) => {
+	const purchasedProductIdPrice = document.createElement('p')
+	purchasedProductIdPrice.textContent = products[purchasedProductId].price + '$'
+	purchasedProductIdPrice.classList.add('basket__purchased-price')
+	return purchasedProductIdPrice
+}
+const purchasedProductIdImage = (purchasedProductId) => {
+	const purchasedProductIdImage = document.createElement('img')
+	purchasedProductIdImage.classList.add('product-image')
+	purchasedProductIdImage.setAttribute('src', products[purchasedProductId].image)
+	return purchasedProductIdImage
+}
+const removeFromBasket = (e) => {
+	const productToDelete = document.getElementById(e.target.closest('li').dataset.id)
+	basketList.removeChild(productToDelete)
+	if(basketList.children.length === 2) {
 		basketIcon.classList.remove('in-active')
 		basketText.classList.remove('in-active')
 	}
-	const purchasedProduct = e.target.closest('li').dataset.id
-	console.log(purchasedProduct)
+}
+const addToBasket = (e) => {
+	if(basketList !== '') {
+		basketIcon.classList.add('in-active')
+		basketText.classList.add('in-active')
+	}
+	const purchasedProductId = e.target.closest('li').dataset.id
+	const purchasedProductPrice = products[purchasedProductId].price
+	console.log(purchasedProductPrice);
 	const purchasedListItem = document.createElement('li')
+	purchasedListItem.setAttribute('id', products[purchasedProductId].id)
 	purchasedListItem.classList.add('basket__purchased-item')
-	const purchasedItemImage = document.createElement('img')
-	purchasedItemImage.classList.add('product-image')
-	purchasedItemImage.setAttribute('src', products[purchasedProduct].image)
-	purchasedListItem.append(purchasedItemImage)
+	purchasedListItem.append(
+	purchasedProductIdImage(purchasedProductId),
+	purchasedProductIdPrice(purchasedProductId),
+	purchasedProductIdName(purchasedProductId)
+	)
+	basketAmount += purchasedProductPrice
+	basketValue.textContent = basketAmount + '$'
 	basketList.append(purchasedListItem)
 }
 const countProductInBasket = () => {
@@ -98,21 +129,27 @@ const countProductInBasket = () => {
 				clickedBtn.textContent = 'REMOVE'
 				clickedBtn.classList.add('remove-from-basket')
 				counter++
+				addToBasket(e)
 			} else {
 				clickedBtn.textContent = 'ADD TO CART'
 				clickedBtn.classList.remove('remove-from-basket')
 				counter--
+				removeFromBasket(e)
 			}
-			purchaseProduct(e)
 			basketCounter.textContent = counter
 		})
 	})
 }
 const openBasket = () => {
-	basket.classList.add('basket-active')
+	if(window.screen.width <= 768) {
+		basket.classList.add('basket-active-mobile')
+	}else if (window.screen.width > 769) {
+		basket.classList.add('basket-active-desktop')
+	}
 }
 const closeBasket = () => {
-	basket.classList.remove('basket-active')
+	basket.classList.remove('basket-active-mobile')
+	basket.classList.remove('basket-active-desktop')
 }
 basketBackButton.addEventListener('click', closeBasket)
 basketButton.addEventListener('click', openBasket)
