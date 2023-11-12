@@ -9,7 +9,6 @@ let basketValue = document.querySelector('.basket__total--number')
 let basketTotal = 0
 let productsInBasket = []
 let counter = 0
-basketValue.textContent = basketTotal + '$'
 basketCounter.textContent = counter
 const createFavoriteButton = () => {
 	const favButton = document.createElement('button')
@@ -82,25 +81,49 @@ const purchasedProductAmountCounter = () => {
 }
 const purchasedProductAmountPlusButton = () => {
 	const plusButton = document.createElement('button')
+	const minusButton = document.createElement('button')
 	plusButton.innerHTML =
 		'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#008000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
 	plusButton.classList.add('basket__purchased-plus--button')
-	plusButton.addEventListener('click', (e) => {
-		let counter = Number(e.target.closest('div').children[1].textContent)
-		counter++
-		e.target.closest('div').children[1].textContent = counter
+	plusButton.addEventListener('click', e => {
+		const id = e.target.closest('li').id
+		const productInBasketPrice = e.target.closest('li').children[1]
+		const productInBasketCounter = e.target.closest('div').children[1]
+		let counter = Number(productInBasketCounter.textContent)
+		if(counter >= 2){
+			counter++
+			minusButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+		}else {
+			counter++
+			minusButton.innerHTML =
+				'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+		}
+		productInBasketCounter.textContent = counter
+		productInBasketPrice.textContent = (products[id].price * counter).toFixed(2) + '$'
 	})
 	return plusButton
 }
 const purchasedProductAmountMinusButton = () => {
 	const minusButton = document.createElement('button')
 	minusButton.innerHTML =
-		'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+		'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>'
 	minusButton.classList.add('basket__purchased-minus--button')
-	minusButton.addEventListener('click', (e) => {
-		let counter = Number(e.target.closest('div').children[1].textContent)
-		counter--
-		e.target.closest('div').children[1].textContent = counter
+	minusButton.addEventListener('click', e => {
+		const productInBasketPrice = e.target.closest('li').children[1]
+		const productInBasketCounter = e.target.closest('div').children[1]
+		const id = e.target.closest('li').id
+		let counter = Number(productInBasketCounter.textContent)
+		if (counter <= 2) {
+			counter--
+			minusButton.innerHTML =
+				'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>'
+		} else {
+			minusButton.innerHTML =
+				'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+			counter--
+			productInBasketCounter.textContent = counter
+			productInBasketPrice.textContent = (products[id].price * (counter + 1) - products[id].price).toFixed(2) + '$'
+		}
 	})
 	return minusButton
 }
@@ -122,8 +145,7 @@ const purchasedProductName = purchasedProductId => {
 }
 const purchasedProductPrice = purchasedProductId => {
 	const purchasedProductPrice = document.createElement('p')
-	purchasedProductPrice.textContent =
-		products[purchasedProductId].price * purchasedProductAmountCounter().textContent + '$'
+	purchasedProductPrice.textContent = products[purchasedProductId].price + '$'
 	purchasedProductPrice.classList.add('basket__purchased-price')
 	return purchasedProductPrice
 }
@@ -159,8 +181,8 @@ const addToBasket = e => {
 		purchasedProductPrice(purchasedProductId),
 		purchasedProductName(purchasedProductId),
 		purchasedProductAmountContainer()
-		)
-	basketTotal += products[purchasedProductId].price * purchasedProductAmountCounter().textContent
+	)
+	basketTotal += products[purchasedProductId].price
 	basketValue.textContent = basketTotal.toFixed(2) + '$'
 	basketList.append(purchasedListItem)
 }
