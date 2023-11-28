@@ -88,9 +88,9 @@ const purchasedProductName = purchasedProductId => {
 	purchasedProductName.classList.add('basket__purchased-name')
 	return purchasedProductName
 }
-const purchasedProductPrice = purchasedProductId => {
+const purchasedProductPrice = (purchasedProductId, productInputValue) => {
 	const purchasedProductPrice = document.createElement('p')
-	purchasedProductPrice.textContent = products[purchasedProductId].price + '$'
+	purchasedProductPrice.textContent = (products[purchasedProductId].price * productInputValue).toFixed(2) + '$'
 	purchasedProductPrice.classList.add('basket__purchased-price')
 	return purchasedProductPrice
 }
@@ -102,9 +102,8 @@ const purchasedProductImage = purchasedProductId => {
 }
 const removeFromBasket = e => {
 	const purchasedProductId = e.target.closest('li').id
-	const purchasedProductPriceValue = products[purchasedProductId].price
 	const productToDelete = document.getElementById(purchasedProductId)
-	basketTotalNumber -= purchasedProductPriceValue
+	basketTotalNumber -= parseFloat(productToDelete.querySelector('.basket__purchased-price').textContent)
 	basketValue.textContent = basketTotalNumber.toFixed(2) + '$'
 	basketList.removeChild(productToDelete)
 	if (basketList.children.length === 2) {
@@ -139,7 +138,7 @@ const addToBasket = e => {
 	purchasedListItem.classList.add('basket__purchased-item')
 	purchasedListItem.append(
 		purchasedProductImage(purchasedProductId),
-		purchasedProductPrice(purchasedProductId),
+		purchasedProductPrice(purchasedProductId, productInputValue),
 		purchasedProductName(purchasedProductId),
 		createRemoveButton()
 	)
