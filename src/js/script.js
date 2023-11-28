@@ -16,11 +16,11 @@ const createInput = () => {
 	input.value = 1
 	input.addEventListener('keydown', (e) => {
 		const addToCartButton = input.closest('div').querySelector('button')
-		if(e.key === '0') {
+		if(e.key === '0' || e.key === 'Backspace') {
 			addToCartButton.setAttribute('disabled', 'true');
 			addToCartButton.classList.add('disabled-button')
 		}else {
-			addToCartButton.setAttribute('disabled', 'false');
+			addToCartButton.removeAttribute('disabled')
 			addToCartButton.classList.remove('disabled-button')
 		}
 	})
