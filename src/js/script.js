@@ -10,17 +10,26 @@ let basketTotalNumber = 0
 basketValue.textContent = basketTotalNumber + '$'
 let counter = 0
 basketCounter.textContent = counter
-const createFavoriteButton = () => {
-	const favButton = document.createElement('button')
-	favButton.classList.add('favorite-button')
-	favButton.innerHTML =
-		'<svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'
-	return favButton
+const createInput = () => {
+	const input = document.createElement('input')
+	input.classList.add('product-input')
+	input.value = 1
+	input.addEventListener('keydown', (e) => {
+		const addToCartButton = input.closest('div').querySelector('button')
+		if(e.key === '0') {
+			addToCartButton.setAttribute('disabled', 'true');
+			addToCartButton.classList.add('disabled-button')
+		}else {
+			addToCartButton.setAttribute('disabled', 'false');
+			addToCartButton.classList.remove('disabled-button')
+		}
+	})
+	return input
 }
 const createButtonsContainer = () => {
 	const buttonsContainer = document.createElement('div')
 	buttonsContainer.classList.add('buttons-container')
-	buttonsContainer.append(createPurchaseButton(), createFavoriteButton())
+	buttonsContainer.append(createPurchaseButton(), createInput())
 	return buttonsContainer
 }
 const createPurchaseButton = () => {
@@ -123,6 +132,7 @@ const addToBasket = e => {
 		basketIcon.classList.add('in-active')
 		basketText.classList.add('in-active')
 	}
+	const productInputValue = e.target.closest('li').querySelector('input').value
 	const purchasedProductId = e.target.closest('li').id
 	const purchasedListItem = document.createElement('li')
 	purchasedListItem.setAttribute('id', products[purchasedProductId].id)
@@ -133,7 +143,7 @@ const addToBasket = e => {
 		purchasedProductName(purchasedProductId),
 		createRemoveButton()
 	)
-	basketTotalNumber += products[purchasedProductId].price
+	basketTotalNumber += (products[purchasedProductId].price * productInputValue)
 	basketValue.textContent = basketTotalNumber.toFixed(2) + '$'
 	basketList.append(purchasedListItem)
 }
