@@ -12,18 +12,12 @@ let counter = 0
 basketCounter.textContent = counter
 const createInput = () => {
 	const input = document.createElement('input')
+	input.setAttribute('type', 'number')
+	input.setAttribute('min', '1')
+	input.setAttribute('max', '10')
+	input.setAttribute('onKeyDown', 'return false')
 	input.classList.add('product-input')
 	input.value = 1
-	input.addEventListener('keydown', (e) => {
-		const addToCartButton = input.closest('div').querySelector('button')
-		if(e.key === '0' || e.key === 'Backspace') {
-			addToCartButton.setAttribute('disabled', 'true');
-			addToCartButton.classList.add('disabled-button')
-		}else {
-			addToCartButton.removeAttribute('disabled')
-			addToCartButton.classList.remove('disabled-button')
-		}
-	})
 	return input
 }
 const createButtonsContainer = () => {
